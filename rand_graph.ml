@@ -9,14 +9,10 @@ end;
 
 let max_v = int_of_string Sys.argv.(1) in
 
-for v = 1 to max_v do
-  let e = ref 1 in
-  try
-    while true do
-      let g = G.Rand.graph ~v ~e:!e () in
-      if Dfs.has_cycle g then
-        G.dot_output g (Printf.sprintf "graph-%d-%d.dot" v !e);
-      incr e;
-    done;
-  with _ -> ();
+for v = 2 to max_v do
+  for e = 2 to (v*(v-1)) do
+    let g = G.Rand.graph ~v ~e () in
+    if Dfs.has_cycle g then
+      G.dot_output g (Printf.sprintf "graph-%d-%d.dot" v e);
+  done;
 done;
