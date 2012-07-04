@@ -1,0 +1,2 @@
+<*.ml{i,}>: debug, pp(camlp4o Camlp4MacroParser.cmo)
+<rand_graph.*>: package(ocamlgraph), package(extlib)

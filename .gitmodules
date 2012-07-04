@@ -1,0 +1,12 @@
+[submodule "abate"]
+	path = abate
+	url = git://github.com/josch/cycles_johnson_abate.git
+[submodule "hawick"]
+	path = hawick
+	url = git://github.com/josch/cycles_hawick_james.git
+[submodule "meyer"]
+	path = meyer
+	url = git://github.com/josch/cycles_johnson_meyer.git
+[submodule "tarjan"]
+	path = tarjan
+	url = git://github.com/josch/cycles_tarjan.git
