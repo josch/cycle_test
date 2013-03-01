@@ -10,3 +10,6 @@
 [submodule "tarjan"]
 	path = tarjan
 	url = git://github.com/josch/cycles_tarjan.git
+[submodule "networkx"]
+	path = networkx
+	url = git://github.com/josch/cycles_johnson_networkx.git
