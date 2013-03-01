@@ -20,6 +20,7 @@ for f in *.dot; do
   result_hawick=$(./hawick/circuits_hawick $num_vertices $(echo $adj_list))
   result_meyer=$(java -classpath ./meyer de.normalisiert.utils.graphs.TestCycles $num_vertices $(echo $adj_list))
   result_tarjan=$(python ./tarjan/cycles.py $num_vertices $(echo $adj_list))
+  result_networkx=$(python ./networkx/cycles.py $num_vertices $(echo $adj_list))
   result_abate_iter=$(./abate/cycles_iter.native $num_vertices $(echo $adj_list))
   result_abate_func=$(./abate/cycles_functional.native $num_vertices $(echo $adj_list))
 
@@ -37,6 +38,10 @@ for f in *.dot; do
   fi
   if [ "$result_hawick" != "$result_abate_func" ]; then
   	echo error: hawick differs from abate_func
+  	exit 1
+  fi
+  if [ "$result_hawick" != "$result_networkx" ]; then
+  	echo error: hawick differs from networkx
   	exit 1
   fi
   echo $f okay, $(echo "$result_hawick" | wc -l) cycles
