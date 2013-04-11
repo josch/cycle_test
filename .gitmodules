@@ -13,3 +13,6 @@
 [submodule "networkx"]
 	path = networkx
 	url = git://github.com/josch/cycles_johnson_networkx.git
+[submodule "boost_hawick"]
+	path = boost_hawick
+	url = https://github.com/ldionne/hawick_circuits.git
