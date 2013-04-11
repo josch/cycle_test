@@ -2,15 +2,23 @@
 
 echo compiling ./hawick/circuits_hawick...
 make -C ./hawick >/dev/null
+
 echo compiling ./meyer/de/normalisiert/utils/graphs/TestCycles.class
 make -C ./meyer >/dev/null
+
 echo compiling ./abate/cycles_iter.native and ./abate/cycles_functional.native
 make -C ./abate >/dev/null
+
+echo compiling ./boost_hawick/hawick_circuits...
+make -C ./boost_hawick >/dev/null
+
 echo compiling ./rand_graph.native...
 make > /dev/null
+
 echo generating random graphs...
 rm -f *.dot
 ./rand_graph.native $1
+
 echo testing graphs...
 counter=0
 for f in *.dot; do
@@ -23,6 +31,7 @@ for f in *.dot; do
   result_abate_iter=$(echo "$adj_list" | ./abate/cycles_iter.native $num_vertices)
   result_abate_func=$(echo "$adj_list" | ./abate/cycles_functional.native $num_vertices)
   result_networkx=$(echo "$adj_list" | python ./networkx/cycles.py $num_vertices)
+  result_boost_hawick=$(echo "$adj_list" | ./boost_hawick/hawick_circuits $num_vertices)
 
   if [ "$result_hawick" != "$result_meyer" ]; then
   	echo error: hawick differs from meyer
@@ -44,8 +53,11 @@ for f in *.dot; do
   	echo error: hawick differs from networkx
   	exit 1
   fi
+  if [ "$result_hawick" != "$result_boost_hawick" ]; then
+    echo error: hawick differs from boost_hawick
+    exit 1
+  fi
   echo $f okay, $(echo "$result_hawick" | wc -l) cycles
   counter=$((counter+1))
 done
 echo successfully tested $counter graphs
-
