@@ -15,14 +15,14 @@ echo testing graphs...
 counter=0
 for f in *.dot; do
   num_vertices=$(sed -n -e '/^  [0-9]\+;$/p' $f | wc -l)
-  adj_list=$(sed -n -e 's/^  \([0-9]\) -> \([0-9]\);$/\1,\2/p' $f)
+  adj_list=$(sed -n -e 's/^  \([0-9]\) -> \([0-9]\);$/\1 \2/p' $f)
 
-  result_hawick=$(./hawick/circuits_hawick $num_vertices $(echo $adj_list))
-  result_meyer=$(java -classpath ./meyer de.normalisiert.utils.graphs.TestCycles $num_vertices $(echo $adj_list))
-  result_tarjan=$(python ./tarjan/cycles.py $num_vertices $(echo $adj_list))
-  result_networkx=$(python ./networkx/cycles.py $num_vertices $(echo $adj_list))
-  result_abate_iter=$(./abate/cycles_iter.native $num_vertices $(echo $adj_list))
-  result_abate_func=$(./abate/cycles_functional.native $num_vertices $(echo $adj_list))
+  result_hawick=$(echo "$adj_list" | ./hawick/circuits_hawick $num_vertices)
+  result_meyer=$(echo "$adj_list" | java -classpath ./meyer de.normalisiert.utils.graphs.TestCycles $num_vertices)
+  result_tarjan=$(echo "$adj_list" | python ./tarjan/cycles.py $num_vertices)
+  result_abate_iter=$(echo "$adj_list" | ./abate/cycles_iter.native $num_vertices)
+  result_abate_func=$(echo "$adj_list" | ./abate/cycles_functional.native $num_vertices)
+  result_networkx=$(echo "$adj_list" | python ./networkx/cycles.py $num_vertices)
 
   if [ "$result_hawick" != "$result_meyer" ]; then
   	echo error: hawick differs from meyer
